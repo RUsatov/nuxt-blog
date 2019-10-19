@@ -50,9 +50,41 @@ export default {
       }
     };
   },
+  mounted () {
+    const {message} = this.$route.query
+
+    switch (message) {
+      case 'login':
+        this.$message.info('Для доступа войдите в систему')
+        break;
+      case 'logout':
+        this.$message.success('Вы вышли из системы')
+        break;
+    }
+  },
   methods: {
     onSubmit() {
-      console.log("submit");
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          this.loading = true
+
+          try {
+            // Формируем логин и пароль
+            const formData = {
+              login: this.controls.login,
+              password: this.controls.password
+            }
+
+            // Дожидаемся пока всё отправится при помощи await
+            await this.$store.dispatch('auth/login', formData)
+            // После чего переходим в админку (если всё ок)
+            this.$router.push('/admin')
+
+          } catch (e) {
+            this.loading = false
+          }
+        }
+      })
     }
   }
 };
