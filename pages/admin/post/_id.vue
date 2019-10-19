@@ -6,17 +6,24 @@
     </el-breadcrumb>
 
     <el-form @submit.native.prevent="onSubmit" :model="controls" :rules="rules" ref="form">
-      
-      <el-form-item label="Текст в формате .md или .html" prop="title">
-        <el-input v-model.trim="controls.title" />
-      </el-form-item>
-
+      <!-- <h2>Войти</h2> -->
       <el-form-item label="Текст в формате .md или .html" prop="text">
         <el-input type="textarea" resize="none" :rows="10" v-model.trim="controls.text" />
       </el-form-item>
 
+      <div class="mb">
+        <small class="mr">
+          <i class="el-icon-time"></i>
+          <span>{{ new Date(post.date).toLocaleString()}}</span>
+        </small>
+        <small>
+          <i class="el-icon-view"></i>
+          <span>{{ post.views }}</span>
+        </small>
+      </div>
+
       <el-form-item>
-        <el-button type="primary" round native-type="submit" :loading="loading">Создать</el-button>
+        <el-button type="primary" round native-type="submit" :loading="loading">Обновить</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -26,25 +33,29 @@
 export default {
   layout: "admin",
   middleware: ["admin-auth"],
+  head() {
+    return {
+      title: `Пост | ${this.post.title}`
+    };
+  },
+  validate({ params }) {
+    return Boolean(params.id);
+  },
+  async asyncData({ store, params }) {
+    const post = await store.dispatch("post/fetchAdminById", params.id);
+    return { post };
+  },
   data() {
     return {
       loading: false,
       controls: {
-        text: "",
-        title: ''
+        text: ""
       },
       rules: {
         text: [
           {
             required: true,
-            message: "Текст не может быть пустым",
-            trigger: "blur"
-          }
-        ],
-        title: [
-          {
-            required: true,
-            message: "Название поста не может быть пустым",
+            message: "Текст не должен быть пустым",
             trigger: "blur"
           }
         ]
