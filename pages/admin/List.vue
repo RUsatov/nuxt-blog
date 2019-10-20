@@ -52,13 +52,11 @@ export default {
           cancelButtonText: "Отмена",
           type: "warning"
         });
-        await this.$store.dispatch('post/remove', id)
-        this.posts = this.posts.filter(p => p._id !== id)
-        
-        this.$message.success('Пост удалён')
-      } catch (e) {
+        await this.$store.dispatch("post/remove", id);
+        this.posts = this.posts.filter(p => p._id !== id);
 
-      }
+        this.$message.success("Пост удалён");
+      } catch (e) {}
     }
   }
 };

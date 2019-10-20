@@ -16,9 +16,9 @@ export const actions = {
   // Логин
   async login({commit, dispatch}, formData) {
     try {
-      const token = await new Promise((resolve, reject) => {
-        setTimeout(() => resolve('mock-token'), 2000)
-      })
+      // /api/auth/admin/login этот путь записывается в файле server/routes/auth.routes.js
+      const {token} = this.$axios.$post('/api/auth/admin/login', formData)
+      console.log('token', token);
       dispatch('setToken', token)
     } catch (e) {
       commit('setError', e, {root: true}) // root: true означает что мы смотрим на setError в корне
@@ -29,7 +29,7 @@ export const actions = {
     try {
       console.log('createUser', formData);
     } catch (error) {
-      
+
     }
   },
   // Отправляем полученный токен в мутации
