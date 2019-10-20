@@ -1,7 +1,8 @@
 const {Strategy, ExtractJwt} = require('passport-jwt')
-const {model} = require('mongoose')
+// const {model} = require('mongoose')
 const keys = require('../keys')
-const User = model('users') // получили пользователей (забрали у mongoose - 2 строка)
+// const User = model('users') // получили пользователей (забрали у mongoose - 2 строка)
+const User = require('../models/user.model') // получили пользователей (забрали у mongoose - 2 строка)
 
 // jwtFromRequest - в хедере будет Autherization: Bearer afsas.saasfgasg.asf
 const options = {
