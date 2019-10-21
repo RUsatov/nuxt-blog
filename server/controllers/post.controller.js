@@ -17,7 +17,7 @@ module.exports.create = async (req, res) => {
 
 module.exports.getAll = async (req, res) => {
   try {
-    const posts = await Post.find().soty({date: -1}) // получаем все посты с сортировкой по дате добавления
+    const posts = await Post.find().sort({date: -1}) // получаем все посты с сортировкой по дате добавления
     res.json(posts)
   } catch (e) {
     res.status(500).json(e)

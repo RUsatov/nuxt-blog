@@ -1,3 +1,7 @@
+import Cookie from 'cookie' // для парсинга куки
+import Cookies from 'js-cookie' // для записи и удаления куки
+import jwtDecode from 'jwt-decode'
+
 export const state = () => ({
   token: null
 })
@@ -36,10 +40,23 @@ export const actions = {
   setToken({commit}, token) {
     this.$axios.setToken(token, 'Bearer')
     commit('setToken', token)
+    Cookies.set('jwt-token', token)
   },
   logout({commit}) {
     this.$axios.setToken(false)
     commit('clearToken')
+    Cookies.remove('jwt-token')
+  },
+  autoLogin({dispatch}) {
+    const cookieStr = process.browser ? document.cookie : this.app.context.req.headers.cookie // забираем все существующие куки либо с сервера либо с фронта
+    const cookies = Cookie.parse(cookieStr || '') || {} // парсим куки при помощи библиотеки
+    const token = cookies['jwt-token'] // сохраняем из куков значение токена
+
+    if (isJWTValid(token)) {
+      dispatch('setToken', token)
+    } else {
+      dispatch('logout')
+    }
   }
 }
 
@@ -47,4 +64,15 @@ export const getters = {
   // Отправляем булево значение в зависимости от того получен токен или нет
   isAuthenticated: state => Boolean(state.token),
   token: state => state.token,
+}
+
+function isJWTValid(token) {
+  if (!token) {
+    return false
+  }
+
+  const jwtData = jwtDecode(token) || {}
+  const expires = jwtData.exp || 0
+
+  return (new Date().getTime() / 1000) < expires
 }

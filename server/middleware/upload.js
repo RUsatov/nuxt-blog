@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
   },
   filename(req, file, cb) {
     // передаём название файла и делаем его оригинальным при помощи даты чтобы данные не перетирались
-    cb(null, `${file.originalname}-${moment().format('DDMMYYYY-HHmmss_SSS')}`)
+    cb(null, `${moment().format('DDMMYYYY-HHmmss_SSS')}-${file.originalname}`)
   }
 })
 const fileFilter = (req, file, cb) => {

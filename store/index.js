@@ -12,7 +12,9 @@ export const mutations = {
 }
 
 export const actions = {
-
+  nuxtServerInit({dispatch}) {
+    dispatch('auth/autoLogin')
+  }
 }
 
 export const getters = {
