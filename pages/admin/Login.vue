@@ -20,6 +20,9 @@
 <script>
 export default {
   layout: "empty",
+  head: {
+    title: `Вход | ${process.env.appName}`
+  },
   data() {
     return {
       loading: false,

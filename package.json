@@ -8,11 +8,17 @@
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "heroku-postbuild": "npm run build"
+  },
+  "engines": {
+    "node": "10.x"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/pwa": "^3.0.0-beta.19",
     "bcrypt-nodejs": "0.0.3",
+    "chart.js": "^2.8.0",
     "cookie": "^0.4.0",
     "cross-env": "^5.2.0",
     "element-ui": "^2.4.11",
@@ -26,6 +32,7 @@
     "nuxt": "^2.0.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "vue-chartjs": "^3.4.2",
     "vue-markdown": "^2.2.4"
   },
   "devDependencies": {

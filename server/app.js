@@ -10,7 +10,7 @@ const commentRoutes = require('./routes/comment.routes') // подключаем
 const keys = require('./keys') // объект конфигурации
 const app = express()
 
-mongoose.connect(keys.MONGO_URI) // коннектимся к БД
+mongoose.connect(keys.MONGO_URI, {useNewUrlParser: true}) // коннектимся к БД
   .then(() => console.log('MongoDB connected'))
   .catch((e) => console.log(e))
 
